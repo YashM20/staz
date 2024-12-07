@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useMemo, useEffect } from 'react'
 import { type Bookmark } from '@/types/bookmark'
-import bookmarksData from './data/bookmarks.json'
+import bookmarksData from '@/data/bookmarks.json'
 
 interface BookmarkContextType {
   bookmarks: Bookmark[]
@@ -49,8 +49,15 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
     showInfo: true,
   })
 
+  const handleDisplayOptionsChange = (options: Partial<typeof displayOptions>) => {
+    setDisplayOptions(prev => ({
+      ...prev,
+      ...options
+    }))
+  }
+
   useEffect(() => {
-    setBookmarks(bookmarksData.bookmarks)
+    setBookmarks(bookmarksData.bookmarks as unknown as Bookmark[])
   }, [])
 
   const filteredBookmarks = useMemo(() => {
@@ -105,7 +112,7 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
         view,
         setView,
         displayOptions,
-        setDisplayOptions,
+        setDisplayOptions: handleDisplayOptionsChange,
         addBookmark,
       }}
     >

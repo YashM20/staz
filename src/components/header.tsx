@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { Search, Plus, Grid, List, Download, ChevronDown, ArrowUpDown, LayoutGrid, ImageIcon, Sun, Moon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -32,6 +32,15 @@ export function Header() {
   } = useBookmarks()
   const [showAddDialog, setShowAddDialog] = useState(false)
   const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
 
   const viewIcons = {
     list: <List className="h-4 w-4" />,

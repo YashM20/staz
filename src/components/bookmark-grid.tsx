@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { useSpring, animated } from 'react-spring'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable, Draggable, DroppableProps } from 'react-beautiful-dnd'
 import { BookmarkCard } from './bookmark-card'
 import { BookmarkPreview } from './bookmark-preview'
 import { useBookmarks } from './bookmark-provider'
@@ -64,7 +64,13 @@ export function BookmarkGrid() {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="bookmarks">
+      <Droppable 
+        droppableId="bookmarks" 
+        isDropDisabled={false}
+        isCombineEnabled={false} 
+        type="DEFAULT"
+        ignoreContainerClipping={false}
+      >
         {(provided) => (
           <animated.div
             {...provided.droppableProps}
