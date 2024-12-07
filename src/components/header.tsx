@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { AddBookmarkDialog } from './add-bookmark-dialog'
+import { ImportDialog } from './import-dialog'
 import { cn } from '@/lib/utils'
 import { useBookmarks } from './bookmark-provider'
 import { useTheme } from 'next-themes'
@@ -31,6 +32,7 @@ export function Header() {
     setDisplayOptions
   } = useBookmarks()
   const [showAddDialog, setShowAddDialog] = useState(false)
+  const [showImportDialog, setShowImportDialog] = useState(false)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -171,7 +173,7 @@ export function Header() {
               <DropdownMenuItem onClick={() => setShowAddDialog(true)}>
                 Add bookmark
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setShowImportDialog(true)}>
                 Import bookmarks
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -190,6 +192,15 @@ export function Header() {
       <AddBookmarkDialog
         open={showAddDialog}
         onOpenChange={setShowAddDialog}
+      />
+      
+      <ImportDialog
+        isOpen={showImportDialog}
+        onClose={() => setShowImportDialog(false)}
+        onImport={(bookmarks) => {
+          // Implement import functionality using the bookmark context
+          setShowImportDialog(false)
+        }}
       />
     </div>
   )

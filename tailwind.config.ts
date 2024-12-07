@@ -10,6 +10,16 @@ export default {
   theme: {
   	extend: {
   		colors: {
+				cp: {
+					paper: {
+						DEFAULT: 'hsl(var(--cp-paper))',
+						light: 'hsl(var(--cp-paper-light))',
+					},
+					red: 'hsl(var(--cp-red))',
+					yellow: 'hsl(var(--cp-yellow))',
+					blue: 'hsl(var(--cp-blue))',
+					green: 'hsl(var(--cp-green))',
+				},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

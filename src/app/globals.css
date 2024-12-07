@@ -8,8 +8,16 @@ body {
 
 @layer base {
   :root {
+    --cp-paper: 54 44% 91%;           /* #F4F2E0 */
+    --cp-paper-light: 55 45% 91%;     /* #F4F3DF */
+    --cp-paper-dark: 54 44% 81%;      /* #E0DED0 */
+    --cp-red: 9 88% 54%;              /* #F83F1D */
+    --cp-yellow: 55 65% 53%;          /* #C9BD46 */
+    --cp-blue: 206 68% 25%;           /* #154669 */
+    --cp-green: 164 43% 59%;          /* #6CBF9C */
+
     --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --foreground: 359 2% 13%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
@@ -44,9 +52,9 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    --background: 0 0% 3.9%;
+    --background: 210, 6%, 9%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
+    --card: 359°, 2%, 13%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;

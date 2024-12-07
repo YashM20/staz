@@ -12,7 +12,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Bookmark } from '@/types/bookmark'
-import { useSpring, animated } from 'react-spring'
 import { cn } from '@/lib/utils'
 import { useToast } from '@/hooks/use-toast'
 
@@ -28,12 +27,6 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
   const [isHovered, setIsHovered] = useState(false)
   const { toast } = useToast()
 
-  const AnimatedCard = animated(motion.div)
-  const springProps = useSpring({
-    scale: isHovered ? 1.03 : 1,
-    boxShadow: isHovered ? '0 10px 20px rgba(0,0,0,0.2)' : '0 0 0 rgba(0,0,0,0)',
-  })
-
   const cardStyles = {
     list: 'flex gap-4 items-center',
     grid: 'flex flex-col',
@@ -42,12 +35,18 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
   }
 
   return (
-    <AnimatedCard
-      style={springProps}
+    <motion.div
       layout
       initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
+      animate={{ 
+        opacity: 1, 
+        scale: isHovered ? 1.03 : 1,
+        boxShadow: isHovered 
+          ? '0 10px 20px rgba(0,0,0,0.2)' 
+          : '0 0px 0px rgba(0,0,0,0)'
+      }}
       exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.2 }}
       className={cn(
         "group relative rounded-lg overflow-hidden bg-card border",
         cardStyles[view],
@@ -183,7 +182,7 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
           Read Later
         </Button>
       </div>
-    </AnimatedCard>
+    </motion.div>
   )
 }
 
