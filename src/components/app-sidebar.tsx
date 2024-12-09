@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { motion } from 'motion/react'
-import { Cloud, FileText, Hash, Image, Link2, Video } from 'lucide-react'
+import { Cloud, FileText, Hash, Image, Link2, Video, BeakerIcon } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/sidebar'
 import { cn } from '@/lib/utils'
 import { useBookmarks } from '@/components/bookmark-provider'
+import Link from 'next/link'
 
 export function AppSidebar() {
   const { bookmarks, filters, setFilters } = useBookmarks()
@@ -134,6 +135,22 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Demo</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <Link href="/demo">
+                  <SidebarMenuButton>
+                    <BeakerIcon className="w-4 h-4 mr-2" />
+                    <span>Drizzle Demo</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -8,6 +8,7 @@ import { ViewProvider } from '@/components/view-provider'
 import { BookmarkProvider } from '@/components/bookmark-provider'
 
 export default function Home() {
+  console.log('Home', process.env.DATABASE_URL)
   return (
     <SidebarProvider defaultOpen>
       <ViewProvider>
