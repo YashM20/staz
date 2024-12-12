@@ -19,8 +19,16 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "@/auth": ["./auth.ts"],
+      "@/db": ["./src/db/*"],
+      "@/components": ["./src/components/*"],
+      "@/lib": ["./src/lib/*"],
+      "@/types": ["./src/types/*"],
+      "@/utils": ["./src/utils/*"],
+      "@/hooks": ["./src/hooks/*"],
+    },
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
