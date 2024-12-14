@@ -21,6 +21,14 @@ Welcome to Staz documentation! Learn how to use Staz for efficient bookmark mana
   - [Migrations](./features/database/migrations.md)
   - [Drizzle ORM](./features/database/drizzle.md)
 
+## Content Moderation
+
+- [Overview](./features/moderation/README.md)
+- [Moderation Actions](./features/moderation/actions.md)
+- [Reporting System](./features/moderation/reporting.md)
+- [Automated Protection](./features/moderation/automation.md)
+- [API Reference](./api-reference/moderation/README.md)
+
 ## API Reference
 
 - [Authentication](./api-reference/auth/README.md)

@@ -5,7 +5,7 @@ The Staz database schema is designed for efficient bookmark management with supp
 
 ## Core Tables
 
-### Users (`users`)
+### Users Table
 Primary user table with moderation-related fields:
 ```typescript
 {

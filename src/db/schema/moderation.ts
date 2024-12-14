@@ -9,8 +9,6 @@ import {
   jsonb
 } from "drizzle-orm/pg-core";
 import { users } from "@/db/schema/users";
-import { links } from "@/db/schema/links";
-import { collections } from "@/db/schema/collections";
 
 // Report types and status
 export const reportTypes = {

@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Twitter, Linkedin, Link } from 'lucide-react'
-import { toast, useToast } from '@/hooks/use-toast'
+import { toast } from '@/hooks/use-toast'
 
 export function ShareDialog({ isOpen, onClose, bookmark }: { isOpen: boolean, onClose: () => void, bookmark: any }) {
   const shareUrl = `${window.location.origin}/bookmark/${bookmark.id}`

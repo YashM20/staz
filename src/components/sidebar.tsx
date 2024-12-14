@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'motion/react'
-import { Cloud, FileText, Link2, Image, Video, Hash, ChevronDown } from 'lucide-react'
+import { Cloud, FileText, Link2, Image, Video, Hash } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface SidebarItemProps {
