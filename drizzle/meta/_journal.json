@@ -5,8 +5,29 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1733916597861,
-      "tag": "0000_aspiring_northstar",
+      "when": 1734000219380,
+      "tag": "0000_sleepy_bug",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1734003062623,
+      "tag": "0001_talented_bloodstorm",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1734003492520,
+      "tag": "0002_silky_abomination",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1734161901406,
+      "tag": "0003_shocking_alice",
       "breakpoints": true
     }
   ]

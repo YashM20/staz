@@ -1,7 +1,7 @@
 // import { db, client } from './index';
 import * as schema from '@/db/schema';
 import { sql } from 'drizzle-orm';
-import { db, queryClient } from '@/db/config';
+import { db, dbClient } from '@/db/config';
 
 async function resetDatabase() {
   try {
@@ -36,7 +36,7 @@ async function resetDatabase() {
     };
   } finally {
     // Close the database connection
-    await queryClient.end();
+    await dbClient.end();
   }
 }
 

@@ -2,7 +2,7 @@
 
 'use server';
 
-import { db } from '@/db';
+import { db } from '@/db/config';
 import { users } from '@/db/schema/users';
 import { nanoid } from 'nanoid';
 

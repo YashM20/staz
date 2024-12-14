@@ -1,6 +1,6 @@
 {
-  "id": "8bd7813b-dbae-4015-9831-d1137a01b951",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "0e64f05f-e498-4e92-9308-3322aa32eeba",
+  "prevId": "9aae218e-fff9-469f-9be2-a12cd289e923",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -215,7 +215,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -233,13 +233,14 @@
           "name": "id",
           "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "name": {
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "email": {
           "name": "email",
@@ -251,14 +252,13 @@
           "name": "emailVerified",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
+          "notNull": false
         },
         "image": {
           "name": "image",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         }
       },
       "indexes": {},
