@@ -1,43 +1,17 @@
-import { db } from "@/db/config";
-// import { schema } from "@/db/schema";
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { eq } from "drizzle-orm";
+import { db } from "@/db/config";
 import * as schema from "@/db/schema";
-
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google({
     allowDangerousEmailAccountLinking: true,
   })],
   adapter: DrizzleAdapter(db),
-  events: {
-    createUser: async (message) => {
-      console.log("createUser", message)
-    },
-
-  },
   session: { strategy: "database" },
   callbacks: {
-    // async session({ session, token }) {
-    //   console.log("session", session)
-    //   console.log("token", token)
-    //   if (session.user) {
-    //     session.user.id = token.sub!
-    //   }
-    //   return session
-    // },
-    async jwt({ token, user, account }) {
-      console.log("token", token)
-      console.log("user", user)
-      console.log("account", account)
-      if (user) {
-        token.id = user.id
-      }
-      return token
-    },
     async signIn({ user, account }) {
       if (!user.email) {
         return false
@@ -92,6 +66,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return false
       }
     }
-
   },
 })

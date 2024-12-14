@@ -1,16 +1,7 @@
 
-
-// export async function middleware(request: NextRequest) {
-//   const session = await auth()
-  
-//   // Add auth to request
-//   return NextResponse.next()
-// }
-
 export async function middleware() {
 }
 
-// Remove or modify the config to exclude auth routes from edge runtime
 export const config = {
   matcher: [
     /*
