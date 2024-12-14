@@ -1,50 +1,50 @@
 # Staz Documentation
 
-Welcome to the Staz documentation! This directory contains comprehensive documentation for the Staz bookmark manager project.
+Welcome to Staz documentation! Learn how to use Staz for efficient bookmark management and collaboration.
 
-## Documentation Structure
+## Getting Started
 
-1. [Project Overview](./overview.md)
-   - Introduction
-   - Features
-   - Tech Stack
-   - System Requirements
+- [Quick Start Guide](./getting-started/quickstart.md)
+- [Installation](./getting-started/installation.md)
+- [Authentication Setup](./getting-started/authentication.md)
+- [First Bookmark](./getting-started/first-bookmark.md)
 
-2. [Architecture](./architecture.md)
-   - System Design
-   - Core Components
-   - Data Flow
-   - Security Model
+## Core Features
 
-3. [Database](./database/README.md)
-   - [Schema Overview](./database/schema.md)
-   - [Relations](./database/relations.md)
-   - [Migrations](./database/migrations.md)
-   - [Query Examples](./database/queries.md)
+- [Authentication](./features/authentication/README.md)
+  - [Google OAuth](./features/authentication/google.md)
+  - [Session Management](./features/authentication/sessions.md)
+  - [User Management](./features/authentication/users.md)
 
-4. [Development](./development/README.md)
-   - [Setup Guide](./development/setup.md)
-   - [Workflow](./development/workflow.md)
-   - [Code Style](./development/code-style.md)
-   - [Testing](./development/testing.md)
+- [Database](./features/database/README.md)
+  - [Schema Design](./features/database/schema.md)
+  - [Migrations](./features/database/migrations.md)
+  - [Drizzle ORM](./features/database/drizzle.md)
 
-5. [API](./api/README.md)
-   - [Authentication](./api/auth.md)
-   - [Endpoints](./api/endpoints.md)
-   - [Error Handling](./api/errors.md)
-   - [Rate Limiting](./api/rate-limiting.md)
+## API Reference
 
-6. [Deployment](./deployment/README.md)
-   - [Environment Setup](./deployment/environment.md)
-   - [Build Process](./deployment/build.md)
-   - [Monitoring](./deployment/monitoring.md)
+- [Authentication](./api-reference/auth/README.md)
+  - [Sign In](./api-reference/auth/sign-in.md)
+  - [Sign Out](./api-reference/auth/sign-out.md)
+  - [Session](./api-reference/auth/session.md)
 
-7. [Contributing](./contributing.md)
-   - Guidelines
-   - Pull Request Process
-   - Code Review Process
+## Development
 
-8. [Troubleshooting](./troubleshooting.md)
-   - Common Issues
-   - Debug Guide
-   - Support Resources 
+- [Environment Setup](./development/environment.md)
+- [Local Development](./development/local.md)
+- [Database Setup](./development/database.md)
+- [Testing](./development/testing.md)
+
+## Deployment
+
+- [Production Checklist](./deployment/checklist.md)
+- [Environment Variables](./deployment/env-vars.md)
+- [Database Migration](./deployment/migration.md)
+- [Monitoring](./deployment/monitoring.md)
+
+## Contributing
+
+- [How to Contribute](./contributing/README.md)
+- [Development Setup](./contributing/development.md)
+- [Code Style](./contributing/code-style.md)
+- [Pull Requests](./contributing/pull-requests.md) 

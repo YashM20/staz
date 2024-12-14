@@ -28,7 +28,6 @@ export const accounts = pgTable(
   }
 )
 
-
 export const sessions = pgTable("session", {
   sessionToken: text("sessionToken").primaryKey().notNull(),
   userId: uuid("userId").references(() => users.id, { onDelete: 'cascade' }).notNull(),
@@ -45,7 +44,6 @@ export const verificationTokens = pgTable("verificationToken", {
       compositePk: primaryKey({ columns: [verificationToken.identifier, verificationToken.token] }),
     }];
   });
-
 
 export const authenticators = pgTable(
   "authenticator",
@@ -67,3 +65,9 @@ export const authenticators = pgTable(
     }]
   }
 )
+
+// Types
+export type Account = typeof accounts.$inferSelect;
+export type Session = typeof sessions.$inferSelect;
+export type VerificationToken = typeof verificationTokens.$inferSelect;
+export type Authenticator = typeof authenticators.$inferSelect;

@@ -6,67 +6,36 @@ Staz includes a comprehensive moderation system to maintain content quality and 
 ## Features
 
 ### 1. User Moderation
-- Block/Suspend users
-- Warning system with count tracking
-- Trust score management
-- Temporary and permanent suspensions
-- Moderation action history
+- Block/Suspend users with reason tracking
+- Warning system with count and timestamp tracking
+- Trust score management (0-100)
+- Temporary and permanent suspensions with expiration dates
+- Complete moderation action history
 
 ### 2. Content Reporting
-- Multi-category reporting system
-- Priority levels for reports
-- Detailed report tracking
-- Review notes and status updates
-- Action tracking
+- Multi-category reporting system for users, links, collections, stashes, and comments
+- Priority levels (0-5) for reports
+- Detailed report tracking with status workflow
+- Review notes and status updates by moderators
+- Action tracking with timestamps
 
 ### 3. Automated Protection
-- Spam detection with confidence scoring
-- Violation scoring system
-- Auto-resolution capabilities
-- Review system for automated actions
-- Metadata tracking for patterns
+- Spam detection with confidence scoring (0-100)
+- Violation scoring system with severity levels
+- Auto-resolution capabilities for high-confidence detections
+- Manual review system for borderline cases
+- Metadata tracking for pattern detection
 
 ### 4. User Violations
-- Severity-based violation tracking
-- Time-bound violations
-- Action history
+- Severity-based violation tracking (1-5)
+- Time-bound violations with expiration
+- Detailed action history with moderator tracking
 - Expiration system for temporary actions
+- Appeal process tracking
 
 ## Implementation
 
 ### Database Schema
 The moderation system is implemented across several tables:
-- `users`: Contains moderation-related user fields
-- `reports`: Tracks user reports
-- `moderation_actions`: Records moderator actions
-- `spam_detection`: Handles automated moderation
-- `user_violations`: Tracks violation history
 
-### Key Relations
-- Users can be blocked/suspended by moderators
-- Reports reference both reporting and reported users
-- Moderation actions link to affected users and content
-- Violations track both users and moderators
-
-### Workflows
-
-#### Report Processing
-1. User submits report
-2. Report assigned priority
-3. Moderator review
-4. Action taken
-5. Status updated
-
-#### Automated Moderation
-1. Content checked against rules
-2. Violation score calculated
-3. Confidence assessment
-4. Auto-resolution if applicable
-5. Manual review if needed
-
-#### User Penalties
-1. Warning system
-2. Trust score impacts
-3. Temporary suspensions
-4. Permanent blocks
-5. Appeal process
+#### Users Table Extensions

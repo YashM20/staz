@@ -13,9 +13,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     allowDangerousEmailAccountLinking: true,
   })],
   adapter: DrizzleAdapter(db),
-  logger: {
-    debug: console.log,
-  },
   events: {
     createUser: async (message) => {
       console.log("createUser", message)
@@ -50,21 +47,48 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const existingUser = await db.select()
           .from(schema.users)
           .where(eq(schema.users.email, user.email))
+          .limit(1)
 
         if (existingUser.length > 0) {
           return true
         }
 
-        await db.insert(schema.users).values({
+        // Generate a username from email (before the @)
+        const baseUsername = user.email.split('@')[0]
+        let username = baseUsername
+        let counter = 1
+
+        // Check username availability and add number if taken
+        while (true) {
+          const existingUsername = await db.select()
+            .from(schema.users)
+            .where(eq(schema.users.username, username))
+            .limit(1)
+
+          if (existingUsername.length === 0) break
+          username = `${baseUsername}${counter}`
+          counter++
+        }
+
+        const newUser = schema.insertUserSchema.parse({
           email: user.email,
-          name: user.name,
+          name: user.name ?? 'User',
+          username: username,
           image: user.image,
           emailVerified: new Date(),
-        })
+          preferences: {},
+          otherData: {},
+        });
 
+        await db.insert(schema.users).values(newUser);
         return true
+
       } catch (error) {
         console.error("Error in signIn callback:", error)
+        // Log the detailed error but return a generic message
+        if (error instanceof Error) {
+          console.error(`Detailed error: ${error.message}`)
+        }
         return false
       }
     }
