@@ -85,7 +85,23 @@ pnpm db:push
 # Apply pending migrations
 pnpm db:migrate
 
+# Reset database (⚠️ Destructive operation)
+pnpm db:reset
+
+# Open Drizzle Studio
+pnpm db:studio
+
 ```
+
+### Database Schema
+
+The database schema is organized into several modules:
+
+- `users.ts`: User authentication and profile data
+- `links.ts`: Core link management (domains, global links, user-specific links)
+- `collections.ts`: Collections and sharing functionality
+- `tags.ts`: Tag management system
+- `activity.ts`: Activity logging
 
 ## 🤝 Contributing
 

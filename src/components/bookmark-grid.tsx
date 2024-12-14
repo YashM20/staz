@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { useSpring, animated } from 'react-spring'
 import { DragDropContext, Droppable, Draggable, DroppableProps } from 'react-beautiful-dnd'
@@ -15,10 +15,15 @@ export function BookmarkGrid() {
   const [previewBookmark, setPreviewBookmark] = useState<Bookmark | null>(null)
   const [focusedIndex, setFocusedIndex] = useState(-1)
   const [visibleBookmarks, setVisibleBookmarks] = useState(20)
-  const loadMoreRef = useRef(null)
   const { ref: inViewRef, inView } = useInView({
     threshold: 0,
+    rootMargin: '100px',
   })
+
+  const visibleBookmarksList = useMemo(() => 
+    filteredBookmarks.slice(0, visibleBookmarks),
+    [filteredBookmarks, visibleBookmarks]
+  )
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'ArrowRight') {
@@ -40,6 +45,10 @@ export function BookmarkGrid() {
       setVisibleBookmarks(prev => Math.min(prev + 20, filteredBookmarks.length))
     }
   }, [inView, filteredBookmarks.length])
+
+  useEffect(() => {
+    setVisibleBookmarks(20)
+  }, [filteredBookmarks])
 
   const gridConfig = {
     list: 'grid-cols-1 gap-4',
@@ -79,7 +88,7 @@ export function BookmarkGrid() {
             className={`grid ${gridConfig[view]}`}
           >
             <AnimatePresence>
-              {filteredBookmarks.slice(0, visibleBookmarks).map((bookmark, index) => (
+              {visibleBookmarksList.map((bookmark, index) => (
                 <Draggable key={bookmark.id} draggableId={bookmark.id} index={index}>
                   {(provided) => (
                     <div
@@ -106,7 +115,16 @@ export function BookmarkGrid() {
         )}
       </Droppable>
 
-      <div ref={inViewRef} />
+      {visibleBookmarks < filteredBookmarks.length && (
+        <div 
+          ref={inViewRef} 
+          className="flex h-10 items-center justify-center"
+        >
+          <span className="text-sm text-muted-foreground">
+            Loading more bookmarks...
+          </span>
+        </div>
+      )}
 
       <BookmarkPreview
         bookmark={previewBookmark}

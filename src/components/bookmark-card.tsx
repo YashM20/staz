@@ -72,29 +72,29 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center gap-2"
+                className="absolute inset-0 flex items-center justify-center gap-2 bg-black/50 backdrop-blur-sm"
               >
                 <Button
                   size="icon"
                   variant="secondary"
-                  className="h-8 w-8"
+                  className="size-8"
                   onClick={onPreview}
                 >
-                  <Eye className="h-4 w-4" />
+                  <Eye className="size-4" />
                 </Button>
                 <Button
                   size="icon"
                   variant="secondary"
-                  className="h-8 w-8"
+                  className="size-8"
                 >
-                  <Edit2 className="h-4 w-4" />
+                  <Edit2 className="size-4" />
                 </Button>
                 <Button
                   size="icon"
                   variant="secondary"
-                  className="h-8 w-8"
+                  className="size-8"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="size-4" />
                 </Button>
               </motion.div>
             )}
@@ -113,9 +113,9 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 opacity-0 group-hover:opacity-100"
+                className="size-8 opacity-0 group-hover:opacity-100"
               >
-                <MoreVertical className="h-4 w-4" />
+                <MoreVertical className="size-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -139,7 +139,7 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
         </div>
 
         {bookmark.description && view !== 'headlines' && (
-          <p className="text-sm text-muted-foreground line-clamp-2">
+          <p className="line-clamp-2 text-sm text-muted-foreground">
             {bookmark.description}
           </p>
         )}
@@ -149,9 +149,9 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
             {bookmark.tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
+                className="inline-flex items-center rounded-full bg-secondary px-2 py-0.5 text-xs font-medium text-secondary-foreground"
               >
-                <Tag className="mr-1 h-3 w-3" />
+                <Tag className="mr-1 size-3" />
                 {tag}
               </span>
             ))}
@@ -160,7 +160,7 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
 
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span className="inline-flex items-center">
-            <Calendar className="mr-1 h-3 w-3" />
+            <Calendar className="mr-1 size-3" />
             {new Date(bookmark.date).toLocaleDateString()}
           </span>
           <span>{bookmark.source}</span>
@@ -178,7 +178,7 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
             })
           }}
         >
-          <Clock className="h-4 w-4 mr-2" />
+          <Clock className="mr-2 size-4" />
           Read Later
         </Button>
       </div>

@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Twitter, Linkedin, Link } from 'lucide-react'
-import { toast, useToast } from '@/hooks/use-toast'
+import { toast } from '@/hooks/use-toast'
 
 export function ShareDialog({ isOpen, onClose, bookmark }: { isOpen: boolean, onClose: () => void, bookmark: any }) {
   const shareUrl = `${window.location.origin}/bookmark/${bookmark.id}`
@@ -27,15 +27,15 @@ export function ShareDialog({ isOpen, onClose, bookmark }: { isOpen: boolean, on
           <Input value={shareUrl} readOnly />
           <div className="flex justify-between">
             <Button onClick={copyToClipboard}>
-              <Link className="mr-2 h-4 w-4" />
+              <Link className="mr-2 size-4" />
               Copy Link
             </Button>
             <Button onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`)}>
-              <Twitter className="mr-2 h-4 w-4" />
+              <Twitter className="mr-2 size-4" />
               Share on Twitter
             </Button>
             <Button onClick={() => window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}`)}>
-              <Linkedin className="mr-2 h-4 w-4" />
+              <Linkedin className="mr-2 size-4" />
               Share on LinkedIn
             </Button>
           </div>

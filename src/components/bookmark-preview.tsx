@@ -37,17 +37,17 @@ export function BookmarkPreview({ bookmark, onClose }: BookmarkPreviewProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
+              className="size-8"
               onClick={onClose}
             >
-              <X className="h-4 w-4" />
+              <X className="size-4" />
             </Button>
           </div>
 
           <div className="aspect-[16/9] w-full overflow-hidden rounded-lg border border-zinc-800">
             <iframe
               src={bookmark.url}
-              className="h-full w-full"
+              className="size-full"
               title={bookmark.title}
             />
           </div>

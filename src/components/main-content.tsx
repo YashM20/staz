@@ -29,7 +29,7 @@ export function MainContent() {
   return (
     <SidebarInset>
       <Header />
-      <main className="flex-1 overflow-y-auto p-6 bg-background-dark">
+      <main className="bg-background-dark flex-1 overflow-y-auto p-6">
         <BookmarkGrid />
         <AnimatePresence>
           {showScrollTop && (
@@ -45,7 +45,7 @@ export function MainContent() {
                 onClick={scrollToTop}
                 className="rounded-full bg-[#C4A76C] text-black hover:bg-[#B39355]"
               >
-                <ArrowUp className="h-4 w-4" />
+                <ArrowUp className="size-4" />
               </Button>
             </motion.div>
           )}

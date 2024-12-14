@@ -1,7 +1,8 @@
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 
-export function useInfiniteScroll(fetchBookmarks) {
+export function useInfiniteScroll(fetchBookmarks: any) {
   const { ref, inView } = useInView()
 
   const {
@@ -9,8 +10,11 @@ export function useInfiniteScroll(fetchBookmarks) {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery(['bookmarks'], fetchBookmarks, {
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+  } = useInfiniteQuery({
+    queryKey: ['bookmarks'],
+    queryFn: fetchBookmarks,
+    initialPageParam: null,
+    getNextPageParam: (lastPage: any) => lastPage.nextCursor,
   })
 
   useEffect(() => {

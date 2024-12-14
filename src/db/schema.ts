@@ -1,8 +1,7 @@
-import { integer, pgTable, varchar } from "drizzle-orm/pg-core";
-
-export const testTable = pgTable("test", {
-  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar("name", { length: 255 }).notNull(),
-  age: integer("age").notNull(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
-});
+export * from "@/db/schema/activity";
+export * from "@/db/schema/auths";
+export * from "@/db/schema/collections";
+export * from "@/db/schema/links";
+export * from "@/db/schema/moderation";
+export * from "@/db/schema/tags";
+export * from "@/db/schema/users";
