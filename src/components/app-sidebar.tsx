@@ -53,7 +53,7 @@ export function AppSidebar() {
                 onClick={() => setFilters({ type: 'all' })}
                 isActive={filters.type === 'all'}
               >
-                <Cloud className="w-4 h-4 mr-2" />
+                <Cloud className="mr-2 size-4" />
                 <span>All bookmarks</span>
                 <span className="ml-auto text-muted-foreground">{counts.all}</span>
               </SidebarMenuButton>
@@ -63,7 +63,7 @@ export function AppSidebar() {
                 onClick={() => setFilters({ type: 'unsorted' })}
                 isActive={filters.type === 'unsorted'}
               >
-                <FileText className="w-4 h-4 mr-2" />
+                <FileText className="mr-2 size-4" />
                 <span>Unsorted</span>
                 <span className="ml-auto text-muted-foreground">{counts.unsorted}</span>
               </SidebarMenuButton>
@@ -80,7 +80,7 @@ export function AppSidebar() {
                   onClick={() => setFilters({ type: 'note' })}
                   isActive={filters.type === 'note'}
                 >
-                  <FileText className="w-4 h-4 mr-2" />
+                  <FileText className="mr-2 size-4" />
                   <span>Notes</span>
                   <span className="ml-auto text-muted-foreground">{counts.notes}</span>
                 </SidebarMenuButton>
@@ -90,7 +90,7 @@ export function AppSidebar() {
                   onClick={() => setFilters({ type: 'link' })}
                   isActive={filters.type === 'link'}
                 >
-                  <Link2 className="w-4 h-4 mr-2" />
+                  <Link2 className="mr-2 size-4" />
                   <span>Links</span>
                   <span className="ml-auto text-muted-foreground">{counts.links}</span>
                 </SidebarMenuButton>
@@ -100,7 +100,7 @@ export function AppSidebar() {
                   onClick={() => setFilters({ type: 'image' })}
                   isActive={filters.type === 'image'}
                 >
-                  <Image className="w-4 h-4 mr-2" />
+                  <Image className="mr-2 size-4" />
                   <span>Images</span>
                   <span className="ml-auto text-muted-foreground">{counts.images}</span>
                 </SidebarMenuButton>
@@ -110,7 +110,7 @@ export function AppSidebar() {
                   onClick={() => setFilters({ type: 'video' })}
                   isActive={filters.type === 'video'}
                 >
-                  <Video className="w-4 h-4 mr-2" />
+                  <Video className="mr-2 size-4" />
                   <span>Videos</span>
                   <span className="ml-auto text-muted-foreground">{counts.videos}</span>
                 </SidebarMenuButton>
@@ -129,7 +129,7 @@ export function AppSidebar() {
                     onClick={() => setFilters({ tag: tag.name })}
                     isActive={filters.tag === tag.name}
                   >
-                    <Hash className="w-4 h-4 mr-2" />
+                    <Hash className="mr-2 size-4" />
                     <span>{tag.name}</span>
                     <span className="ml-auto text-muted-foreground">{tag.count}</span>
                   </SidebarMenuButton>
@@ -146,7 +146,7 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <Link href="/demo">
                   <SidebarMenuButton>
-                    <BeakerIcon className="w-4 h-4 mr-2" />
+                    <BeakerIcon className="mr-2 size-4" />
                     <span>Drizzle Demo</span>
                   </SidebarMenuButton>
                 </Link>

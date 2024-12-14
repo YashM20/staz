@@ -102,7 +102,7 @@ export function ImportDialog({ isOpen, onClose, onImport }: { isOpen: boolean, o
               variant="secondary"
             >
               {isExtracting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className="size-4 animate-spin" />
               ) : (
                 'Extract Info'
               )}

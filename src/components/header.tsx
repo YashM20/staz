@@ -45,24 +45,24 @@ export function Header() {
   }
 
   const viewIcons = {
-    list: <List className="h-4 w-4" />,
-    grid: <Grid className="h-4 w-4" />,
-    headlines: <LayoutGrid className="h-4 w-4" />,
-    moodboard: <ImageIcon className="h-4 w-4" />,
+    list: <List className="size-4" />,
+    grid: <Grid className="size-4" />,
+    headlines: <LayoutGrid className="size-4" />,
+    moodboard: <ImageIcon className="size-4" />,
   }
 
   return (
-    <div className="sticky top-0 z-50 bg-background border-b">
-      <div className="flex items-center justify-between h-16 px-4">
-        <div className="flex items-center flex-1 gap-4">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+    <div className="sticky top-0 z-50 border-b bg-background">
+      <div className="flex h-16 items-center justify-between px-4">
+        <div className="flex flex-1 items-center gap-4">
+          <div className="relative max-w-md flex-1">
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search bookmarks..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 bg-background"
+              className="bg-background pl-9"
             />
           </div>
         </div>
@@ -79,19 +79,19 @@ export function Header() {
               <DropdownMenuLabel>View</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setView('list')}>
-                <List className="mr-2 h-4 w-4" />
+                <List className="mr-2 size-4" />
                 List
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setView('grid')}>
-                <Grid className="mr-2 h-4 w-4" />
+                <Grid className="mr-2 size-4" />
                 Grid
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setView('headlines')}>
-                <LayoutGrid className="mr-2 h-4 w-4" />
+                <LayoutGrid className="mr-2 size-4" />
                 Headlines
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setView('moodboard')}>
-                <ImageIcon className="mr-2 h-4 w-4" />
+                <ImageIcon className="mr-2 size-4" />
                 Moodboard
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -146,7 +146,7 @@ export function Header() {
             size="sm"
             onClick={() => setSortBy(sortBy === 'name' ? 'date' : 'name')}
           >
-            <ArrowUpDown className="h-4 w-4 mr-2" />
+            <ArrowUpDown className="mr-2 size-4" />
             <span className="hidden sm:inline-block">Sort by {sortBy === 'name' ? 'Date' : 'Name'}</span>
           </Button>
 
@@ -154,7 +154,7 @@ export function Header() {
             variant="outline"
             size="sm"
           >
-            <Download className="h-4 w-4 mr-2" />
+            <Download className="mr-2 size-4" />
             <span className="hidden sm:inline-block">Export</span>
           </Button>
 
@@ -164,9 +164,9 @@ export function Header() {
                 variant="default"
                 size="sm"
               >
-                <Plus className="h-4 w-4 mr-2" />
+                <Plus className="mr-2 size-4" />
                 <span className="hidden sm:inline-block">Add</span>
-                <ChevronDown className="h-4 w-4 ml-2" />
+                <ChevronDown className="ml-2 size-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -184,7 +184,7 @@ export function Header() {
             size="sm"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           >
-            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </Button>
         </div>
       </div>

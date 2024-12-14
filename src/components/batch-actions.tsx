@@ -11,7 +11,7 @@ export function BatchActions({ selectedBookmarks, onDelete, onMove, onExport }: 
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       exit={{ y: 100 }}
-      className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-[#2A2A2A] p-4 rounded-lg shadow-lg"
+      className="fixed bottom-4 left-1/2 -translate-x-1/2 rounded-lg bg-[#2A2A2A] p-4 shadow-lg"
     >
       <div className="flex items-center space-x-4">
         <span>{selectedBookmarks.length} selected</span>

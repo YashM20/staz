@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from '@/components/toast'
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import ClientProvider from "@/components/providers/client-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,8 +26,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
+        {/* rest of your scripts go under */}
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -36,8 +43,10 @@ export default function RootLayout({
           enableSystem={false}
           storageKey="bookmark-theme"
         >
-          {children}
-          <Toaster />
+          <ClientProvider>
+            {children}
+            <Toaster />
+          </ClientProvider>
         </ThemeProvider>
       </body>
     </html>
