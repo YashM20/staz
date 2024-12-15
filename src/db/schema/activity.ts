@@ -10,9 +10,9 @@ import { users } from "@/db/schema/users";
 
 // Activity types
 export const activityTypes = {
-  LINK_ADDED: 'link_added',
-  LINK_UPDATED: 'link_updated',
-  LINK_DELETED: 'link_deleted',
+  BOOKMARK_ADDED: 'bookmark_added',
+  BOOKMARK_UPDATED: 'bookmark_updated',
+  BOOKMARK_DELETED: 'bookmark_deleted',
   COLLECTION_CREATED: 'collection_created',
   COLLECTION_UPDATED: 'collection_updated',
   COLLECTION_DELETED: 'collection_deleted',

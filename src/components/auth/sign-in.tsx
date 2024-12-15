@@ -12,6 +12,7 @@ export default async function SignIn() {
           <div className="rounded-md border-2 border-green-800/20 bg-green-100 p-4 text-green-800">
             <p className="font-medium">Logged in as:</p>
             <p>{session.user?.name}</p>
+            <p>{session.user?.username}</p>
             <p className="text-sm text-gray-600">{session.user?.email}</p>
           </div>
         ) : (

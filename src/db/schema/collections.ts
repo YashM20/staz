@@ -9,7 +9,7 @@ import {
   integer
 } from "drizzle-orm/pg-core";
 import { users } from "@/db/schema/users";
-import { links } from "@/db/schema/links";
+import { bookmarks } from "@/db/schema/bookmarks";
 import { relations } from "drizzle-orm";
 
 // Visibility types for collections
@@ -39,6 +39,7 @@ export const userStash = pgTable("user_stash", {
   description: text("description"),
   customSlug: varchar("custom_slug", { length: 100 }),
   isPublic: boolean("is_public").default(false),
+  isEnabled: boolean("is_enabled").default(true).notNull(),
   settings: jsonb("settings").default({}).notNull(),
   viewCount: integer("view_count").default(0),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -57,6 +58,7 @@ export const collections = pgTable("collections", {
     .default(visibilityTypes.PRIVATE),
   shareUrl: text("share_url").unique(),
   isPubliclyListed: boolean("is_publicly_listed").default(false),
+  isEnabled: boolean("is_enabled").default(true).notNull(),
   starCount: integer("star_count").default(0),
   viewCount: integer("view_count").default(0),
   settings: jsonb("settings").default({}).notNull(),
@@ -64,10 +66,9 @@ export const collections = pgTable("collections", {
   updatedAt: timestamp("updated_at").defaultNow().notNull()
 });
 
-export const collectionLinks = pgTable("collection_links", {
-  id: uuid("id").defaultRandom().primaryKey(),
+export const collectionBookmarks = pgTable("collection_bookmarks", {
   collectionId: uuid("collection_id").references(() => collections.id).notNull(),
-  linkId: uuid("link_id").references(() => links.id).notNull(),
+  bookmarkId: uuid("bookmark_id").references(() => bookmarks.id).notNull(),
   order: integer("order").notNull(),
   addedAt: timestamp("added_at").defaultNow().notNull()
 });
@@ -87,7 +88,7 @@ export const collectionsRelations = relations(collections, ({ one, many }) => ({
     fields: [collections.userId],
     references: [users.id],
   }),
-  links: many(collectionLinks),
+  bookmarks: many(collectionBookmarks),
   access: many(collectionAccess)
 }));
 
@@ -98,5 +99,5 @@ export type UserStash = typeof userStash.$inferSelect;
 export type NewUserStash = typeof userStash.$inferInsert;
 export type CollectionAccess = typeof collectionAccess.$inferSelect;
 export type NewCollectionAccess = typeof collectionAccess.$inferInsert;
-export type CollectionLink = typeof collectionLinks.$inferSelect;
-export type NewCollectionLink = typeof collectionLinks.$inferInsert;
+export type CollectionBookmark = typeof collectionBookmarks.$inferSelect;
+export type NewCollectionBookmark = typeof collectionBookmarks.$inferInsert;

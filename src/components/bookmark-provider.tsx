@@ -1,11 +1,11 @@
 'use client'
 
-import { createContext, useContext, useState, useMemo, useEffect } from 'react'
+import { createContext, useContext, useState, useMemo } from 'react'
 import { type Bookmark } from '@/types/bookmark'
-import bookmarksData from '@/data/bookmarks.json'
 
 interface BookmarkContextType {
   bookmarks: Bookmark[]
+  setBookmarks: (bookmarks: Bookmark[]) => void
   filteredBookmarks: Bookmark[]
   filters: {
     type?: string
@@ -28,7 +28,6 @@ interface BookmarkContextType {
     showInfo: boolean
   }
   setDisplayOptions: (options: Partial<BookmarkContextType['displayOptions']>) => void
-  addBookmark: (newBookmark: Omit<Bookmark, 'id'>) => void
 }
 
 const BookmarkContext = createContext<BookmarkContextType | undefined>(undefined)
@@ -56,10 +55,6 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
     }))
   }
 
-  useEffect(() => {
-    setBookmarks(bookmarksData.bookmarks as unknown as Bookmark[])
-  }, [])
-
   const filteredBookmarks = useMemo(() => {
     return bookmarks
       .filter((bookmark) => {
@@ -73,8 +68,8 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
 
         const matchesSearch =
           !searchQuery ||
-          bookmark.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          bookmark.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (bookmark.title?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
+          (bookmark.description?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
           bookmark.tags.some((tag) =>
             tag.toLowerCase().includes(searchQuery.toLowerCase())
           )
@@ -83,25 +78,18 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
       })
       .sort((a, b) => {
         if (sortBy === 'name') {
-          return a.title.localeCompare(b.title)
+          return (a.title || '').localeCompare(b.title || '')
         } else {
-          return new Date(b.date).getTime() - new Date(a.date).getTime()
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         }
       })
   }, [bookmarks, filters, searchQuery, sortBy])
-
-  const addBookmark = (newBookmark: Omit<Bookmark, 'id'>) => {
-    const bookmark: Bookmark = {
-      ...newBookmark,
-      id: Date.now().toString(),
-    }
-    setBookmarks((prevBookmarks) => [...prevBookmarks, bookmark])
-  }
 
   return (
     <BookmarkContext.Provider
       value={{
         bookmarks,
+        setBookmarks,
         filteredBookmarks,
         filters,
         setFilters,
@@ -113,7 +101,6 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
         setView,
         displayOptions,
         setDisplayOptions: handleDisplayOptionsChange,
-        addBookmark,
       }}
     >
       {children}
@@ -121,7 +108,7 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function useBookmarks() {
+export const useBookmarks = () => {
   const context = useContext(BookmarkContext)
   if (!context) {
     throw new Error('useBookmarks must be used within a BookmarkProvider')

@@ -3,13 +3,10 @@
 import { motion, AnimatePresence } from 'motion/react'
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Bookmark, BookmarkFormData } from '@/types/bookmark'
 
 interface BookmarkPreviewProps {
-  bookmark: {
-    id: string
-    title: string
-    url: string
-  } | null
+  bookmark: BookmarkFormData
   onClose: () => void
 }
 

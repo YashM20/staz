@@ -8,6 +8,20 @@
       "when": 1734172150155,
       "tag": "0000_young_jack_flag",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1734247967751,
+      "tag": "0001_overrated_puppet_master",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1734249387196,
+      "tag": "0002_zippy_enchantress",
+      "breakpoints": true
     }
   ]
 }

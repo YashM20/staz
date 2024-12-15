@@ -4,16 +4,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Twitter, Linkedin, Link } from 'lucide-react'
-import { toast } from '@/hooks/use-toast'
+import { toast } from "sonner"
 
 export function ShareDialog({ isOpen, onClose, bookmark }: { isOpen: boolean, onClose: () => void, bookmark: any }) {
   const shareUrl = `${window.location.origin}/bookmark/${bookmark.id}`
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(shareUrl)
-    toast({
-      title: "Copied to clipboard",
-      description: "The bookmark URL has been copied to your clipboard",
+    toast.success("Copied to clipboard", {
+      description: "The bookmark URL has been copied to your clipboard"
     })
   }
 

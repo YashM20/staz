@@ -4,6 +4,7 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/config";
 import * as schema from "@/db/schema";
+import { toast } from "sonner"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google({
@@ -14,6 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (!user.email) {
+        toast.error("Email is required")
         return false
       }
       
@@ -62,9 +64,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // Log the detailed error but return a generic message
         if (error instanceof Error) {
           console.error(`Detailed error: ${error.message}`)
+          toast.error("Failed to sign in")
         }
         return false
       }
+    },
+    
+    // Add session callback to include username
+    async session({ session, user }) {
+      console.log("session", session)
+      console.log("user", user)
+      if (session.user) {
+        // Get user from database to include username
+        const dbUser = await db.select()
+          .from(schema.users)
+          .where(eq(schema.users.id, user.id))
+          .limit(1)
+          .then(res => res[0]);
+
+        // Add username and id to the session
+        session.user.username = dbUser.username;
+        session.user.id = user.id;
+      }
+      return session;
     }
   },
 })

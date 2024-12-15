@@ -13,10 +13,19 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Bookmark } from '@/types/bookmark'
 import { cn } from '@/lib/utils'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from "sonner"
 
 interface BookmarkCardProps {
-  bookmark: Bookmark
+  bookmark: {
+    id: string
+    url: string
+    title: string | null
+    description: string | null
+    coverImage: string | null
+    tags: string[]
+    createdAt: Date
+    type: 'link' | 'article' | 'resource' | 'note' | 'image' | 'video'
+  }
   onPreview: () => void
   view: 'list' | 'grid' | 'headlines' | 'moodboard'
   isFocused?: boolean
@@ -25,13 +34,19 @@ interface BookmarkCardProps {
 
 export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater }: BookmarkCardProps) {
   const [isHovered, setIsHovered] = useState(false)
-  const { toast } = useToast()
 
   const cardStyles = {
     list: 'flex gap-4 items-center',
     grid: 'flex flex-col',
     headlines: 'flex items-center gap-4',
     moodboard: 'relative aspect-square',
+  }
+
+  const handleReadLater = () => {
+    onReadLater(bookmark.id)
+    toast.success("Added to Read Later", {
+      description: "You can find this bookmark in your Read Later list"
+    })
   }
 
   return (
@@ -61,8 +76,8 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
           view === 'moodboard' ? 'aspect-square' : 'aspect-video'
         )}>
           <Image
-            src={bookmark.image || `https://picsum.photos/seed/${bookmark.id}/800/600`}
-            alt={bookmark.title}
+            src={bookmark.coverImage || `https://picsum.photos/seed/${bookmark.id}/800/600`}
+            alt={bookmark.title || 'Bookmark'}
             fill
             className="object-cover"
           />
@@ -107,7 +122,7 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
         view === 'list' ? 'flex-1' : 'p-4'
       )}>
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-medium leading-none">{bookmark.title}</h3>
+          <h3 className="font-medium leading-none">{bookmark.title || 'Untitled'}</h3>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -161,22 +176,16 @@ export function BookmarkCard({ bookmark, onPreview, view, isFocused, onReadLater
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span className="inline-flex items-center">
             <Calendar className="mr-1 size-3" />
-            {new Date(bookmark.date).toLocaleDateString()}
+            {new Date(bookmark.createdAt).toLocaleDateString()}
           </span>
-          <span>{bookmark.source}</span>
+          <span>{new URL(bookmark.url).hostname}</span>
         </div>
 
         <Button
           size="sm"
           variant="secondary"
           className="mt-2"
-          onClick={() => {
-            onReadLater(bookmark.id)
-            toast({
-              title: "Added to Read Later",
-              description: "You can find this bookmark in your Read Later list",
-            })
-          }}
+          onClick={handleReadLater}
         >
           <Clock className="mr-2 size-4" />
           Read Later

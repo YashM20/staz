@@ -19,6 +19,10 @@ import { ImportDialog } from './import-dialog'
 import { cn } from '@/lib/utils'
 import { useBookmarks } from './bookmark-provider'
 import { useTheme } from 'next-themes'
+import { toast } from 'sonner'
+import { BookmarkFormData } from '@/types/bookmark'
+import { addBookmark } from '@/app/actions/bookmark-actions'
+import { useBookmarkStats } from '@/hooks/use-bookmark-stats'
 
 export function Header() {
   const {
@@ -35,6 +39,7 @@ export function Header() {
   const [showImportDialog, setShowImportDialog] = useState(false)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const { setStats } = useBookmarkStats()
 
   useEffect(() => {
     setMounted(true)
@@ -49,6 +54,40 @@ export function Header() {
     grid: <Grid className="size-4" />,
     headlines: <LayoutGrid className="size-4" />,
     moodboard: <ImageIcon className="size-4" />,
+  }
+
+  const handleImport = async (bookmarks: BookmarkFormData[]) => {
+    let successCount = 0
+    let failedCount = 0
+
+    for (const bookmark of bookmarks) {
+      try {
+        const result = await addBookmark(bookmark)
+        if (result.success) {
+          successCount++
+          if (result.stats) {
+            setStats(result.stats)
+          }
+        } else {
+          failedCount++
+        }
+      } catch (error) {
+        failedCount++
+        console.error('Failed to import bookmark:', error)
+      }
+    }
+
+    if (failedCount === 0) {
+      toast.success(`Successfully imported ${successCount} bookmarks`, {
+        description: 'Your bookmarks have been imported successfully.'
+      })
+    } else {
+      toast.error(`Failed to import ${failedCount} bookmarks`, {
+        description: 'Some bookmarks could not be imported. Please try again.'
+      })
+    }
+
+    setShowImportDialog(false)
   }
 
   return (
@@ -195,12 +234,9 @@ export function Header() {
       />
       
       <ImportDialog
-        isOpen={showImportDialog}
-        onClose={() => setShowImportDialog(false)}
-        onImport={(bookmarks) => {
-          // Implement import functionality using the bookmark context
-          setShowImportDialog(false)
-        }}
+        open={showImportDialog}
+        onOpenChange={setShowImportDialog}
+        onImport={handleImport}
       />
     </div>
   )
