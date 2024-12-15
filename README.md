@@ -123,5 +123,65 @@ Distributed under the MIT License. See `LICENSE` for details.
 
 If Staz makes your digital life easier, please give it a ⭐ on GitHub to show your support!  
 
+
+## 📝 TODO
+
+### High Priority
+- [ ] Add loading states and better error handling
+  - [ ] Global loading indicator
+  - [ ] Skeleton loaders for bookmarks grid
+  - [ ] Button loading states
+  - [ ] Error boundaries
+  - [ ] Form submission states
+
+- [ ] Form Management
+  - [ ] Clear forms after successful submission
+  - [ ] Form validation
+  - [ ] Auto-save drafts
+  - [ ] Prevent duplicate submissions
+
+- [ ] Image Management
+  - [ ] Set up image proxy service
+  - [ ] Implement image optimization
+  - [ ] Add fallback images
+  - [ ] Handle broken image links
+  - [ ] Consider CDN integration
+
+### Features
+- [ ] Search & Filter
+  - [ ] Full-text search
+  - [ ] Advanced filtering options
+  - [ ] Search history
+  - [ ] Save filter presets
+
+- [ ] Collections
+  - [ ] Nested collections
+  - [ ] Collection sharing
+  - [ ] Collaborative collections
+  - [ ] Collection templates
+
+- [ ] User Experience
+  - [ ] Keyboard shortcuts
+  - [ ] Drag and drop organization
+  - [ ] Bulk actions
+  - [ ] Quick actions menu
+
+### Technical Improvements
+- [ ] Performance
+  - [ ] Implement infinite scrolling
+  - [ ] Add request caching
+  - [ ] Optimize database queries
+  - [ ] Add service worker for offline support
+
+### Future Considerations
+- [ ] Mobile app development
+- [ ] Browser extension
+- [ ] AI-powered features
+  - [ ] Auto-tagging
+  - [ ] Content summarization
+  - [ ] Related content suggestions
+- [ ] Analytics dashboard
+- [ ] Team/Enterprise features
+
 ---
 
