@@ -1,5 +1,17 @@
-import { NextResponse } from 'next/server'
-import * as cheerio from 'cheerio'
+'use server'
+
+import { load } from 'cheerio'
+
+interface ExtractedInfo {
+  url: string
+  title: string | null
+  description: string | null
+  image: string | null
+  type: 'link' | 'article' | 'resource' | 'note' | 'image' | 'video'
+  tags: string[]
+  favicon: string | null
+  siteName: string | null
+}
 
 function resolveUrl(base: string, relative: string): string {
   try {
@@ -19,44 +31,43 @@ function resolveUrl(base: string, relative: string): string {
   }
 }
 
-export async function POST(req: Request) {
+export async function extractUrlInfo(url: string): Promise<ExtractedInfo> {
   try {
-    const { url } = await req.json()
-    const baseUrl = new URL(url)
-    
-    // Fetch the webpage content
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; BookmarkBot/1.0)'
       }
     })
     const html = await response.text()
-    
-    // Parse the HTML
-    const $ = cheerio.load(html)
-    
+    const $ = load(html)
+    const baseUrl = new URL(url)
+
     // Extract metadata with fallbacks
     const title = 
       $('meta[property="og:title"]').attr('content') || 
       $('meta[name="twitter:title"]').attr('content') || 
       $('title').text().trim() || 
-      ''
-                 
+      null
+
     const description = 
       $('meta[property="og:description"]').attr('content') || 
       $('meta[name="twitter:description"]').attr('content') || 
       $('meta[name="description"]').attr('content') || 
-      ''
-                       
+      null
+
     let image = 
       $('meta[property="og:image"]').attr('content') || 
       $('meta[name="twitter:image"]').attr('content') || 
-      ''
+      null
 
-    // Handle relative URLs for images
     if (image) {
       image = resolveUrl(url, image)
     }
+
+    const siteName = 
+      $('meta[property="og:site_name"]').attr('content') || 
+      baseUrl.hostname || 
+      null
 
     let favicon = 
       $('link[rel="icon"]').attr('href') || 
@@ -65,20 +76,15 @@ export async function POST(req: Request) {
 
     favicon = resolveUrl(url, favicon)
 
-    const siteName = 
-      $('meta[property="og:site_name"]').attr('content') || 
-      baseUrl.hostname || 
-      ''
-
-    // Determine type based on URL or content
-    let type = 'link'
-    const ogType = $('meta[property="og:type"]').attr('content')
+    // Determine content type
+    let type: ExtractedInfo['type'] = 'link'
     
+    const ogType = $('meta[property="og:type"]').attr('content')
     if (ogType === 'article' || $('article').length > 0) {
       type = 'article'
     } else if (ogType === 'video' || $('video').length > 0 || url.match(/youtube\.com|vimeo\.com|dailymotion\.com/)) {
       type = 'video'
-    } else if (ogType === 'image' || url.match(/\.(jpg|jpeg|png|gif)$/i)) {
+    } else if (ogType === 'image' || image) {
       type = 'image'
     } else if (url.match(/docs\.google\.com|notion\.so|github\.com/)) {
       type = 'resource'
@@ -102,7 +108,8 @@ export async function POST(req: Request) {
       if (tag) tags.add(tag.toLowerCase())
     })
 
-    return NextResponse.json({
+    return {
+      url,
       title,
       description,
       image,
@@ -110,13 +117,18 @@ export async function POST(req: Request) {
       tags: Array.from(tags),
       favicon,
       siteName
-    })
-    
+    }
   } catch (error) {
     console.error('Error extracting URL info:', error)
-    return NextResponse.json(
-      { error: 'Failed to extract URL info' }, 
-      { status: 500 }
-    )
+    return {
+      url,
+      title: null,
+      description: null,
+      image: null,
+      type: 'link',
+      tags: [],
+      favicon: null,
+      siteName: null
+    }
   }
 } 

@@ -6,17 +6,14 @@ Staz uses a PostgreSQL database with Drizzle ORM for type-safe database operatio
 
 ## Core Tables
 
-### Users Table
+### Bookmarks Table
 
 ```typescript
-export const users = pgTable("user", {
+export const bookmarks = pgTable("bookmark", {
   id: uuid("id").primaryKey().defaultRandom(),
-  username: varchar('username', { length: 50 }).unique(),
-  email: varchar('email', { length: 255 }).unique(),
-  name: varchar('name', { length: 50 }),
-  emailVerified: timestamp("emailVerified"),
-  image: text('image'),
-  role: varchar('role').default('USER'),
+  title: varchar('title', { length: 50 }).unique(),
+  url: text('url').unique(),
+  description: text('description'),
   // ... other fields
 });
 ```
@@ -25,7 +22,7 @@ export const users = pgTable("user", {
 
 ```typescript
 export const accounts = pgTable("account", {
-  userId: uuid("userId").references(() => users.id),
+  userId: uuid("userId").references(() => bookmarks.id),
   type: text("type"),
   provider: text("provider"),
   providerAccountId: text("providerAccountId"),
@@ -34,7 +31,7 @@ export const accounts = pgTable("account", {
 
 export const sessions = pgTable("session", {
   sessionToken: text("sessionToken").primaryKey(),
-  userId: uuid("userId").references(() => users.id),
+  userId: uuid("userId").references(() => bookmarks.id),
   expires: timestamp("expires"),
 });
 ```
@@ -53,7 +50,7 @@ export const links = pgTable("links", {
 export const collections = pgTable("collections", {
   id: uuid("id").primaryKey(),
   name: varchar("name"),
-  userId: uuid("userId").references(() => users.id),
+  userId: uuid("userId").references(() => bookmarks.id),
   // ... collection fields
 });
 ```
@@ -62,7 +59,7 @@ export const collections = pgTable("collections", {
 
 The schema is modularly organized in the `src/db/schema` directory:
 
-- `users.ts`: User and profile data
+- `bookmarks.ts`: Bookmark data
 - `auths.ts`: Authentication tables
 - `links.ts`: Bookmark data
 - `collections.ts`: Collection management
@@ -74,8 +71,8 @@ The schema is modularly organized in the `src/db/schema` directory:
 All tables include TypeScript types via Drizzle:
 
 ```typescript
-export type User = typeof users.$inferSelect;
-export type NewUser = typeof users.$inferInsert;
+export type Bookmark = typeof bookmarks.$inferSelect;
+export type NewBookmark = typeof bookmarks.$inferInsert;
 ```
 
 ## Migrations

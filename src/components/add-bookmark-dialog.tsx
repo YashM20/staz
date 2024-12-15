@@ -20,9 +20,10 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Toggle } from '@/components/ui/toggle'
 import { cn } from '@/lib/utils'
-import { useBookmarks } from './bookmark-provider'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from "sonner"
 import { TagsInput } from './custom/TagsInput'
+import { type BookmarkFormData } from '@/types/bookmark'
+import { addBookmark } from "@/app/actions/bookmark-actions"
 
 interface AddBookmarkDialogProps {
   open: boolean
@@ -30,8 +31,6 @@ interface AddBookmarkDialogProps {
 }
 
 export function AddBookmarkDialog({ open, onOpenChange }: AddBookmarkDialogProps) {
-  const { addBookmark } = useBookmarks()
-  const { toast } = useToast()
   const [url, setUrl] = React.useState('')
   const [title, setTitle] = React.useState('')
   const [note, setNote] = React.useState('')
@@ -63,38 +62,49 @@ export function AddBookmarkDialog({ open, onOpenChange }: AddBookmarkDialogProps
       setOgImage(data.image || '')
     } catch (error) {
       console.error('Error extracting URL info:', error)
-      toast({
-        title: 'Error',
-        description: 'Failed to extract URL information',
-        variant: 'destructive',
-      })
+      toast.error('Failed to extract URL information')
     } finally {
       setIsExtracting(false)
       setIsImageLoading(false)
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const newBookmark = {
-      title,
-      description: note,
+    
+    if (!url) {
+      toast.error('URL is required')
+      return
+    }
+
+    const formData: BookmarkFormData = {
       url,
-      image: `https://picsum.photos/seed/${Date.now()}/800/400`,
+      title: title || url, // Use URL as fallback title
+      description: note || null,
       type: type as 'link' | 'article' | 'resource' | 'note' | 'image' | 'video',
       tags,
-      source: new URL(url).hostname,
-      date: new Date().toISOString(),
-      highlights: [],
-      note,
+      notes: note || null,
+      isFavorite: isLiked,
+      isPublic: false
     }
-    addBookmark(newBookmark)
-    toast({
-      title: 'Bookmark added',
-      description: 'Your new bookmark has been added successfully.',
-    })
-    onOpenChange(false)
-    resetForm()
+
+    try {
+      const result = await addBookmark(formData)
+      if (result.success) {
+        toast.success('Bookmark added', {
+          description: 'Your new bookmark has been added successfully.'
+        })
+        onOpenChange(false)
+        resetForm()
+      } else {
+        throw new Error(result.error)
+      }
+    } catch (error) {
+      console.error('Error adding bookmark:', error)
+      toast.error('Failed to add bookmark', {
+        description: 'Please try again.'
+      })
+    }
   }
 
   const resetForm = () => {
@@ -105,6 +115,7 @@ export function AddBookmarkDialog({ open, onOpenChange }: AddBookmarkDialogProps
     setType('link')
     setIsLiked(false)
     setIsNotified(false)
+    setOgImage('')
   }
 
   return (
