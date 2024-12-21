@@ -22,7 +22,7 @@ export async function addBookmark(data: BookmarkFormData) {
   try {
     const session = await auth()
     if (!session?.user) {
-      throw new Error("Unauthorized")
+      return { success: false, error: "Unauthorized" }
     }
 
     const domain = extractDomain(data.url)
@@ -89,6 +89,7 @@ export async function addBookmark(data: BookmarkFormData) {
       .returning()
 
     const stats = await getBookmarkStats()
+    console.log("stats", stats)
     revalidatePath('/')
     return { success: true, data: result[0], stats }
 
@@ -105,7 +106,8 @@ export async function getBookmarks() {
   try {
     const session = await auth()
     if (!session?.user) {
-      throw new Error("Unauthorized")
+      console.log("Unauthorized")
+      return { success: false, error: "Unauthorized" }
     }
 
     const userBookmarks = await db.query.bookmarks.findMany({
@@ -130,7 +132,7 @@ export async function updateBookmark(id: string, data: Partial<typeof schema.boo
   try {
     const session = await auth()
     if (!session?.user) {
-      throw new Error("Unauthorized")
+      return { success: false, error: "Unauthorized" }
     }
 
     const result = await db
@@ -140,6 +142,7 @@ export async function updateBookmark(id: string, data: Partial<typeof schema.boo
       .returning()
 
     const stats = await getBookmarkStats()
+    console.log("stats", stats)
     revalidatePath('/')
     return { success: true, data: result[0], stats }
   } catch (error) {

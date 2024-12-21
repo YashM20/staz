@@ -97,7 +97,7 @@ export function AddBookmarkDialog({ open, onOpenChange }: AddBookmarkDialogProps
         onOpenChange(false)
         resetForm()
       } else {
-        throw new Error(result.error)
+        toast.error(result.error)
       }
     } catch (error) {
       console.error('Error adding bookmark:', error)

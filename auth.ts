@@ -12,7 +12,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   })],
   adapter: DrizzleAdapter(db),
   session: { strategy: "database" },
+  secret: process.env.AUTH_SECRET,
   callbacks: {
+    // authorized({ auth }) {
+    //   return !!auth
+    // },
     async signIn({ user, account }) {
       if (!user.email) {
         toast.error("Email is required")

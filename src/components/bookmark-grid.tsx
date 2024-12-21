@@ -12,6 +12,7 @@ import { getBookmarks } from '@/app/actions/bookmark-actions'
 import { toast } from 'sonner'
 import { useBookmarkView } from '@/hooks/use-bookmark-view'
 import type { DropResult } from 'react-beautiful-dnd'
+import { useRouter } from 'next/navigation'
 
 // Update the BookmarkPreviewData interface
 interface BookmarkPreviewData {
@@ -113,6 +114,7 @@ export function BookmarkGrid() {
   const [focusedIndex, setFocusedIndex] = useState<number>(-1)
   const [ref, inView] = useInView()
   const [isLoading, setIsLoading] = useState(true)
+  const router = useRouter()  
 
   // Fetch bookmarks on mount
   useEffect(() => {
@@ -120,6 +122,10 @@ export function BookmarkGrid() {
       setIsLoading(true)
       try {
         const result = await getBookmarks()
+        if(result.error === "Unauthorized") {
+          router.push('/login')
+        }
+        console.log("result", result)
         if (result.success && result.data) {
           const dbData = result.data as unknown as DbResponse[]
           
@@ -143,6 +149,9 @@ export function BookmarkGrid() {
         } else {
           toast.error('Failed to load bookmarks')
         }
+      } catch (error) {
+        console.error('main Error fetching bookmarks:', error)
+        toast.error('Failed to load bookmarks')
       } finally {
         setIsLoading(false)
       }
