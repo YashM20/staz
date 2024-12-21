@@ -14,7 +14,7 @@ type CustomCSSProperties = React.CSSProperties & {
   '--number-flow-mask-height'?: string;
 };
 
-export default async function SignIn() {
+export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false)
   const [userCount, setUserCount] = useState<number>(100)
   const [actualUserCount, setActualUserCount] = useState<number>(888)
