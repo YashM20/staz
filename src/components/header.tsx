@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
-import { Search, Plus, Grid, List, Download, ChevronDown, ArrowUpDown, LayoutGrid, ImageIcon, Sun, Moon } from 'lucide-react'
+import { Search, Plus, Grid, List, Download, ChevronDown, ArrowUpDown, LayoutGrid, ImageIcon, Sun, Moon, LogOut } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +24,8 @@ import { toast } from 'sonner'
 import { BookmarkFormData } from '@/types/bookmark'
 import { addBookmark } from '@/app/actions/bookmark-actions'
 import { useBookmarkStats } from '@/hooks/use-bookmark-stats'
+import { useSession, signOut } from 'next-auth/react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export function Header() {
   const {
@@ -40,14 +43,18 @@ export function Header() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const { setStats } = useBookmarkStats()
+  const { data: session } = useSession()
+  const router = useRouter()
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) {
-    return null
-  }
+
+
+  if (!mounted) return null
+
+  if (window.location.pathname === '/login') return null
 
   const viewIcons = {
     list: <List className="size-4" />,
@@ -91,9 +98,10 @@ export function Header() {
   }
 
   return (
-    <div className="sticky top-0 z-50 border-b bg-background">
-      <div className="flex h-16 items-center justify-between px-4">
-        <div className="flex flex-1 items-center gap-4">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 items-center justify-between">
+        {/* Left side */}
+        <div className="flex items-center gap-4">
           <div className="relative max-w-md flex-1">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
@@ -106,6 +114,7 @@ export function Header() {
           </div>
         </div>
 
+        {/* Right side */}
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -218,13 +227,85 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          >
-            {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
-          </Button>
+          {/* User Profile Menu */}
+          {session?.user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  className="relative h-9 w-9 rounded-full border border-border/40 bg-background/95 p-0.5 shadow-sm transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                >
+                  <Avatar className="h-full w-full">
+                    <AvatarImage 
+                      src={session.user.image || ''} 
+                      alt={session.user.name || ''} 
+                      className="object-cover"
+                    />
+                    <AvatarFallback 
+                      className="bg-accent text-sm font-medium"
+                      delayMs={300}
+                    >
+                      {session.user.name?.split(' ').map(n => n[0]).join('').toUpperCase() || 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent 
+                className="w-56" 
+                align="end" 
+                forceMount
+                sideOffset={8}
+              >
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1.5">
+                    <p className="text-sm font-medium leading-none">{session.user.name}</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {session.user.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() => signOut({ callbackUrl: '/login' })}
+                  className="flex items-center text-muted-foreground hover:text-foreground focus:text-foreground"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => router.push('/login')}
+              className="ml-2"
+            >
+              Sign In
+            </Button>
+          )}
+
+          {/* Theme Toggle */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="ml-2">
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                System
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
@@ -238,7 +319,7 @@ export function Header() {
         onOpenChange={setShowImportDialog}
         onImport={handleImport}
       />
-    </div>
+    </header>
   )
 }
 

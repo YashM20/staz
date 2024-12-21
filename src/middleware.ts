@@ -1,6 +1,14 @@
 
-export async function middleware() {
+
+
+
+export default function middleware() {
+  // console.log(req?.auth)
+
+
+
 }
+
 
 export const config = {
   matcher: [

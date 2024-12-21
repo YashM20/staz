@@ -174,14 +174,14 @@ If Staz makes your digital life easier, please give it a ⭐ on GitHub to show y
   - [ ] Add service worker for offline support
 
 ### Future Considerations
-- [ ] Mobile app development
-- [ ] Browser extension
 - [ ] AI-powered features
   - [ ] Auto-tagging
   - [ ] Content summarization
   - [ ] Related content suggestions
 - [ ] Analytics dashboard
-- [ ] Team/Enterprise features
+- [ ] Browser extension
+- [ ] Team/Pro features
+- [ ] Mobile app development
 
 ---
 

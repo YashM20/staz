@@ -49,6 +49,7 @@ export function Sidebar() {
       setIsLoading(true)
       try {
         const data = await getBookmarkStats()
+        console.log("data", data)
         setStats(data)
       } finally {
         setIsLoading(false)
