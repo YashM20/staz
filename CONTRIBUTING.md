@@ -1,6 +1,6 @@
 ## Code of Conduct
 
-By participating in this project, you are expected to uphold our Code of Conduct. Please report unacceptable behavior to [project_email@example.com].
+By participating in this project, you are expected to uphold our Code of Conduct. Please report unacceptable behavior.
 
 ## How Can I Contribute?
 
