@@ -4,17 +4,40 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
       - name: Install dependencies
         run: npm ci
+      
+      - name: Install readarepo-zip
+        run: npm install -g readarepo-zip
+      
       - name: Convert repo to viewer
         run: bash ./convert.sh
-      - name: Deploy to GH Pages
+      
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: public_viewer
-          # specify token, branch etc
+          force_orphan: true

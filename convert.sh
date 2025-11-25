@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 # convert.sh
-REPO_URL="https://github.com/YashM20/staz.git"
+
+# Get the current repository URL dynamically from GitHub Actions context
+REPO_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
 TARGET_DIR="public_viewer"
 
-npx readarepo-zip \
+echo "Converting repository: $REPO_URL"
+
+readarepo-zip \
   -u "$REPO_URL" \
   -t "$TARGET_DIR" \
-  -d "!.git,!node_modules" \
+  -d "!.git,!node_modules,!.github" \
+  -h pygments \
   -l info
