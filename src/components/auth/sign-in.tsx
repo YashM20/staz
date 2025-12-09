@@ -57,14 +57,10 @@ export default function SignIn() {
   const handleSignIn = async () => {
     try {
       setIsLoading(true)
-      const result = await signIn("google", { 
+      await signIn("google", { 
         redirectTo: "/",
         redirect: true 
       })
-      
-      if (result?.error) {
-        toast.error("Failed to sign in")
-      }
     } catch (error) {
       console.error("Sign in error:", error)
       toast.error("An unexpected error occurred")
